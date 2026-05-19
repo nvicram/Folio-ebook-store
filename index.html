@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Folio — Your Digital Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cabinet+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Folio<span>.</span></div>
+  <div class="nav-links">
+    <button onclick="goPage('home')" class="anav" id="nb-home">Home</button>
+    <button onclick="goPage('books')" id="nb-books">Books</button>
+    <button onclick="goPage('cats')" id="nb-cats">Categories</button>
+    <button onclick="goPage('revs')" id="nb-revs">Reviews</button>
+    <button onclick="goPage('contact')" id="nb-contact">Contact</button>
+    <button onclick="toggleCart()" aria-label="Cart">
+      <i class="ti ti-shopping-bag"></i><span class="cbadge" id="cart-count">0</span>
+    </button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-ghost" onclick="openMod('login')">Log in</button>
+    <button class="btn-accent" onclick="openMod('signup')">Sign up</button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="pg-home" class="page active">
+  <div class="hero">
+    <div class="hero-pill"><i class="ti ti-sparkles"></i> Your next great read awaits</div>
+    <h1>Read boldly.<br><span class="accent">Discover</span> <span class="pop">endlessly.</span></h1>
+    <p>Thousands of e-books across every genre — delivered instantly to any device. Curated with intention, priced for everyone.</p>
+    <div class="hero-btns">
+      <button class="btn-xl btn-main" onclick="goPage('books')">Browse Collection</button>
+      <button class="btn-xl btn-outline2" onclick="openMod('signup')">Start Free Trial</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">12,400+</div><div class="stat-label">Titles</div></div>
+      <div class="stat-item"><div class="stat-num">840+</div><div class="stat-label">Authors</div></div>
+      <div class="stat-item"><div class="stat-num">95k+</div><div class="stat-label">Readers</div></div>
+      <div class="stat-item"><div class="stat-num">4.9 ★</div><div class="stat-label">Rating</div></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">Editor's Pick</div></div>
+    <div class="featured-wrap">
+      <div class="feat-cover" style="background:#2d1b69">
+        <div class="feat-cover-ov"></div>
+        <div class="feat-cover-txt">
+          <div class="feat-book-title">The Midnight Library</div>
+          <div class="feat-book-author">Matt Haig</div>
+        </div>
+      </div>
+      <div class="feat-info">
+        <div class="feat-badge">★ Featured</div>
+        <h3>The Midnight Library</h3>
+        <div class="feat-meta">Matt Haig &nbsp;·&nbsp; Fiction &nbsp;·&nbsp; ★★★★★</div>
+        <div class="feat-desc">Between life and death there is a library, and within that library the shelves go on forever. Every book provides a chance to try another life you could have lived.</div>
+        <div class="feat-price">$9.99</div>
+        <button class="btn-xl btn-main" onclick="addCart('The Midnight Library','Matt Haig','$9.99','#2d1b69')">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-title">Popular Right Now</div>
+      <span class="sec-link" onclick="goPage('books')">View all →</span>
+    </div>
+    <div class="books-grid" id="hm-books"></div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-title">Browse by Genre</div>
+      <span class="sec-link" onclick="goPage('cats')">All genres →</span>
+    </div>
+    <div class="cat-grid" id="hm-cats"></div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-title">Reader Reviews</div>
+      <span class="sec-link" onclick="goPage('revs')">All reviews →</span>
+    </div>
+    <div class="reviews-grid" id="hm-revs"></div>
+  </div>
+</div>
+
+<!-- BOOKS PAGE -->
+<div id="pg-books" class="page">
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">All Books</div></div>
+    <div class="filter-bar">
+      <select id="fg" onchange="renderAllBooks()">
+        <option value="">All Genres</option>
+        <option>Fiction</option><option>Mystery</option><option>Romance</option>
+        <option>Science</option><option>History</option><option>Self-Help</option>
+      </select>
+      <select id="fs" onchange="renderAllBooks()">
+        <option>Sort: Popular</option><option>Sort: Price Low</option><option>Sort: Newest</option>
+      </select>
+    </div>
+    <div class="books-grid" id="all-books"></div>
+  </div>
+</div>
+
+<!-- CATEGORIES PAGE -->
+<div id="pg-cats" class="page">
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">Browse Categories</div></div>
+    <div class="cat-grid" id="all-cats"></div>
+  </div>
+</div>
+
+<!-- REVIEWS PAGE -->
+<div id="pg-revs" class="page">
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">Reader Reviews</div></div>
+    <div class="reviews-grid" id="all-revs"></div>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="pg-contact" class="page">
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">Get in Touch</div></div>
+    <div class="contact-form">
+      <div class="form-2">
+        <div><label class="form-lbl">First Name</label><input class="form-inp" type="text" placeholder="Ada"></div>
+        <div><label class="form-lbl">Last Name</label><input class="form-inp" type="text" placeholder="Lovelace"></div>
+      </div>
+      <label class="form-lbl">Email</label><input class="form-inp" type="email" placeholder="ada@folio.com">
+      <label class="form-lbl">Topic</label>
+      <select class="form-inp">
+        <option>General Inquiry</option><option>Book Recommendation</option>
+        <option>Technical Support</option><option>Partnership</option>
+      </select>
+      <label class="form-lbl">Message</label>
+      <textarea class="form-inp form-ta" placeholder="What's on your mind…"></textarea>
+      <button class="btn-xl btn-main" onclick="submitContact()">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTHOR SECTION (shown on all pages) -->
+<div class="author-band">
+  <div class="author-inner">
+    <div class="author-avi">E</div>
+    <div class="author-bio">
+      <h2>Eleanor Voss</h2>
+      <div class="role">Founder &amp; Chief Editor</div>
+      <p>A lifelong bibliophile with 15+ years in digital publishing, Eleanor built Folio to make extraordinary literature accessible to everyone. She curates every shelf personally and still reads two books a week.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">Folio<span>.</span></div>
+    <div class="foot-note">© 2026 Folio Books · Terms · Privacy · Support</div>
+  </div>
+</footer>
+
+<!-- LOGIN / SIGNUP MODAL -->
+<div class="modal-bg" id="mod-bg" onclick="if(event.target===this)closeMod()">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeMod()">✕</button>
+    <div id="mod-content"></div>
+  </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-panel" id="cart-panel">
+  <div class="cart-hd">
+    <h3>Your Cart</h3>
+    <button onclick="toggleCart()" class="cart-close-btn">✕</button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-ft" id="cart-ft">
+    <div class="cart-tot"><span>Total</span><span id="cart-total">$0.00</span></div>
+    <button class="cart-cta" onclick="checkout()">Checkout</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast2" id="toast2"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
